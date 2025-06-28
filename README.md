@@ -1,2 +1,2 @@
 # MemoLeds
-Memory game implemented in ESP32 with 4 LEDs and 5 buttons.
+Memory game implemented in ESP32 with 4 LEDs and 5 buttons. Each LED has an assigned button, the fifth button is to confirm the sequence. There are 10 difficulty levels at most; on the first level, the sequence is 2 LEDs; for the next level, 4 are lit, and so on up to level 10, which consists of a sequence of 20 LEDs. Two buffers are used, one for the LEDs and one for the buttons, to verify if the sequences correspond. If correct, the level increases; otherwise, the game ends in an error. It is recommended to view the state diagram for a better understanding of the software.
