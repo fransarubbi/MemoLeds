@@ -3,6 +3,8 @@
 #include "Event/event.h"
 #include "Led/led.h"
 #include "FSM/fsm.h"
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 
 
 DebouncedButton greenButton(2, 80, GREEN);
@@ -12,10 +14,14 @@ DebouncedButton redButton(16, 80, RED);
 DebouncedOkButton okButton(18, 80, false);
 EventQueue eventQueueButtons;
 EventQueue eventQueueLeds;
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 
 void setup() {
   Serial.begin(115200);
+  Wire.begin(21, 22);  // SDA, SCL
+  lcd.init();         // Inicializa
+  lcd.backlight();     // Enciende luz de fondo
   randomSeed(analogRead(23));
   init_FSM();
   init_Led();

@@ -4,10 +4,11 @@
 #include "Event/event.h"
 
 
+
 uint8_t level;
 State state;
 colour_t colourButton, colourLed;
-bool check;
+bool check, onEntry = true;
 
 
 void init_FSM(){
@@ -17,15 +18,67 @@ void init_FSM(){
 }
 
 
+void clear_row(uint8_t row) {
+    lcd.setCursor(0, row);  
+    lcd.print("                ");  
+    lcd.setCursor(0, row);  
+}
+
+
+
+void match_string(uint8_t level){
+    switch(level){
+        case 1: clear_row(1);
+                lcd.print("Nivel 1");
+                break;
+        case 2: clear_row(1);
+                lcd.print("Nivel 2");
+                break;
+        case 3: clear_row(1);
+                lcd.print("Nivel 3");
+                break;
+        case 4: clear_row(1);
+                lcd.print("Nivel 4");
+                break;
+        case 5: clear_row(1);
+                lcd.print("Nivel 5");
+                break;
+        case 6: clear_row(1);
+                lcd.print("Nivel 6");
+                break;
+        case 7: clear_row(1);
+                lcd.print("Nivel 7");
+                break;
+        case 8: clear_row(1);
+                lcd.print("Nivel 8");
+                break;
+        case 9: clear_row(1);
+                lcd.print("Nivel 9");
+                break;
+        case 10:clear_row(1);
+                lcd.print("Nivel 10");
+                break;
+    }
+}
+
+
 void update_FSM(){
     switch(state){
-        case INIT:  if(okButton.getFlag()){
+        case INIT:  if(onEntry){
+                        lcd.setCursor(0, 0);
+                        lcd.print("MemoLeds!");
+                        clear_row(1);
+                        lcd.print("Pulsa para jugar");
+                        onEntry = false;
+                    }
+                    if(okButton.getFlag()){
                         okButton.consume_flag();
                         state = GENERATE;
                     }
                     break;
 
-        case GENERATE:  create_sequence();
+        case GENERATE:  match_string(level);
+                        create_sequence();
                         state = WAITING;
                         break;
 
@@ -52,6 +105,8 @@ void update_FSM(){
                         break;
 
         case ERROR: error();
+                    clear_row(1);
+                    lcd.print("Game over :(");
                     check = true;
                     level = 1;
                     state = INIT;
@@ -62,6 +117,8 @@ void update_FSM(){
                             state = GENERATE;
                         }
                         else{
+                            clear_row(1);
+                            lcd.print("Ganaste :)");
                             state = INIT;
                             level = 1;
                         }

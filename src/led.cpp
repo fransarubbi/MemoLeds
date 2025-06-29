@@ -11,8 +11,8 @@ uint8_t match(colour_t colour){
     switch(colour){
         case GREEN: return 17; 
         case YELLOW: return 19;
-        case BLUE: return 21;
-        case RED: return 22;
+        case BLUE: return 39;
+        case RED: return 36;
         default: return 17;
     }
 }
@@ -37,13 +37,13 @@ void error(){
     for(i = 0; i < 5; i++){
         digitalWrite(17, HIGH);
         digitalWrite(19, HIGH);
-        digitalWrite(21, HIGH);
-        digitalWrite(22, HIGH);
+        digitalWrite(39, HIGH);
+        digitalWrite(36, HIGH);
         delay(500);
         digitalWrite(17, LOW);
         digitalWrite(19, LOW);
-        digitalWrite(21, LOW);
-        digitalWrite(22, LOW);
+        digitalWrite(39, LOW);
+        digitalWrite(36, LOW);
         delay(250);  
     }
 }
@@ -52,6 +52,6 @@ void error(){
 void init_Led(){
     pinMode(17, OUTPUT);
     pinMode(19, OUTPUT);
-    pinMode(21, OUTPUT);
-    pinMode(22, OUTPUT);
+    pinMode(39, OUTPUT);
+    pinMode(36, OUTPUT);
 }

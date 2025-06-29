@@ -12,6 +12,19 @@ colour_t match(int pin){
     }
 }
 
+
+int match_led(int pin){
+    switch(pin){
+        case 2: return 17; 
+        case 5: return 19;
+        case 4: return 39;
+        case 16: return 36;
+        default: return 17;
+    }
+}
+
+
+
 DebouncedButton :: DebouncedButton(int pin, unsigned long debounceTime, colour_t colour) : pin(pin), state(WAIT) {
     pinMode(pin, INPUT);
     lastDebounceTime = 0;
@@ -31,6 +44,7 @@ void DebouncedButton :: update() {
                 if (digitalRead(pin)) {
                     state = PRESS;
                     insert_EventQueue(&eventQueueButtons, match(pin));
+                    digitalWrite(match_led(pin), HIGH);
                 } else {
                     state = WAIT;
                 }
@@ -39,6 +53,7 @@ void DebouncedButton :: update() {
 
         case PRESS:
             if (!digitalRead(pin)) {
+                digitalWrite(match_led(pin), LOW);
                 state = WAIT;
             }
             break;
