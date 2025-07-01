@@ -17,8 +17,8 @@ int match_led(int pin){
     switch(pin){
         case 2: return 17; 
         case 5: return 19;
-        case 4: return 39;
-        case 16: return 36;
+        case 4: return 13;
+        case 16: return 12;
         default: return 17;
     }
 }
@@ -45,6 +45,7 @@ void DebouncedButton :: update() {
                     state = PRESS;
                     insert_EventQueue(&eventQueueButtons, match(pin));
                     digitalWrite(match_led(pin), HIGH);
+                    digitalWrite(2, HIGH);
                 } else {
                     state = WAIT;
                 }
@@ -54,6 +55,7 @@ void DebouncedButton :: update() {
         case PRESS:
             if (!digitalRead(pin)) {
                 digitalWrite(match_led(pin), LOW);
+                digitalWrite(2, LOW);
                 state = WAIT;
             }
             break;

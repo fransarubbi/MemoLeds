@@ -73,6 +73,9 @@ void update_FSM(){
                     }
                     if(okButton.getFlag()){
                         okButton.consume_flag();
+                        while(consult_EventQueue(&eventQueueButtons, &colourButton)){
+                            supress_EventQueue(&eventQueueButtons);
+                        }
                         state = GENERATE;
                     }
                     break;
@@ -106,6 +109,9 @@ void update_FSM(){
 
         case ERROR: error();
                     clear_row(1);
+                    while(consult_EventQueue(&eventQueueButtons, &colourButton)){
+                        supress_EventQueue(&eventQueueButtons);
+                    }
                     lcd.print("Game over :(");
                     check = true;
                     level = 1;

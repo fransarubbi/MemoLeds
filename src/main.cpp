@@ -7,7 +7,7 @@
 #include <LiquidCrystal_I2C.h>
 
 
-DebouncedButton greenButton(2, 80, GREEN);
+DebouncedButton greenButton(15, 80, GREEN);
 DebouncedButton yellowButton(5, 80, YELLOW); 
 DebouncedButton blueButton(4, 80, BLUE);
 DebouncedButton redButton(16, 80, RED);
@@ -27,6 +27,7 @@ void setup() {
   init_Led();
   init_EventQueue(&eventQueueButtons);
   init_EventQueue(&eventQueueLeds);
+  pinMode(2, OUTPUT);
 }
 
 void loop() {

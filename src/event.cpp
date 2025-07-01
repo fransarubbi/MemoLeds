@@ -22,7 +22,6 @@ bool insert_EventQueue(EventQueue* eventQueue, colour_t e){
 	if(eventQueue->cant == MAX){
 		return false;   // Cola llena
 	}
-	Serial.println(e);
 	eventQueue->buffer[eventQueue->last] = e;
 	eventQueue->last = (eventQueue->last + 1) & (MAX - 1);
 	eventQueue->cant++;
