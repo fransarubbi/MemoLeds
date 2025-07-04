@@ -20,12 +20,12 @@ uint8_t match(colour_t colour){
 
 void create_sequence() {
     uint8_t i, number;
-    for (i = 0; i < 2 * level; i++) {
+    for (i = 0; i < level+1; i++) {
         number = random(0, 4);
         insert_EventQueue(&eventQueueLeds, COLOURS[number]);
         uint8_t pin = match(COLOURS[number]);
         digitalWrite(pin, HIGH);
-        delay(750); 
+        delay(500); 
         digitalWrite(pin, LOW);
         delay(500);  
     }

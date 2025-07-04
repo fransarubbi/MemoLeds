@@ -66,7 +66,7 @@ void update_FSM(){
     switch(state){
         case INIT:  if(onEntry){
                         lcd.setCursor(0, 0);
-                        lcd.print("MemoLeds!");
+                        lcd.print("MarioLeds!");
                         clear_row(1);
                         lcd.print("Pulsa para jugar");
                         onEntry = false;
@@ -99,6 +99,7 @@ void update_FSM(){
                             supress_EventQueue(&eventQueueButtons);
                             supress_EventQueue(&eventQueueLeds);
                         }
+                        onEntry = true;
                         if(check){
                             state = CORRECT;
                         }
@@ -107,15 +108,25 @@ void update_FSM(){
                         }
                         break;
 
-        case ERROR: error();
-                    clear_row(1);
-                    while(consult_EventQueue(&eventQueueButtons, &colourButton)){
-                        supress_EventQueue(&eventQueueButtons);
+        case ERROR: if(onEntry){
+                        onEntry = false;
+                        error();
+                        clear_row(0);
+                        lcd.print("Game over :(");
+                        clear_row(1);
+                        lcd.print("Nivel ");
+                        lcd.print(level);
+                        while(consult_EventQueue(&eventQueueButtons, &colourButton)){
+                            supress_EventQueue(&eventQueueButtons);
+                        }
+                        check = true;
+                        level = 1;
                     }
-                    lcd.print("Game over :(");
-                    check = true;
-                    level = 1;
-                    state = INIT;
+                    if(okButton.getFlag()){
+                        okButton.consume_flag();
+                        state = INIT;
+                        onEntry = true;
+                    }
                     break;
 
         case CORRECT:   if(level < 10){
@@ -123,10 +134,20 @@ void update_FSM(){
                             state = GENERATE;
                         }
                         else{
-                            clear_row(1);
-                            lcd.print("Ganaste :)");
-                            state = INIT;
-                            level = 1;
+                            if(onEntry){
+                                clear_row(0);
+                                lcd.print("Ganaste :)");
+                                clear_row(1);
+                                lcd.print("Nivel ");
+                                lcd.print(level);
+                                onEntry = false;
+                            }
+                            if(okButton.getFlag()){
+                                okButton.consume_flag();
+                                state = INIT;
+                                onEntry = true;
+                                level = 1;
+                            }
                         }
                         break;
     }
